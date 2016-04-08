@@ -1,0 +1,10 @@
+* Cosas que tengo que averiguar
+** DONE areAligndWithTheSun :: Angle -> Angle -> Angle -> Bool
+dados los angulos de los planetas tengo que saber si estan alineados con el sol
+CLOSED: [2016-04-07 jue 00:35]
+** isSunInsideTriangle :: ???
+dados los angulos o las posisiones absolutas de los planetas (el sol siempre es
+0,0 tengo que averiguar si el sol esta adentro del triangulo que forman lo
+planetas
+*** isSunInsideTriangle :: Angle -> Angle -> Angle -> Bool
+la function en haskell mas o menos quedaria algo asi
