@@ -46,8 +46,10 @@ clock t =
       (List.map (drawPlanetAndOrbit t) allPlanets) ++
       (List.map (drawSunPlanetLine t) allPlanets) ++
       [ drawTriangle t
-      , (((leftAligned <| fromString "Perimeter of the Triangle") `beside` (show (perimeterAt t)))
-        `above` ((leftAligned <| fromString "Day :") `beside` (show t) ))
+      , (leftAligned <| fromString "Perimeter of the Triangle: ")
+          `beside` (show <| perimeterAt t)
+        `above` ((leftAligned <| fromString "Day: ")
+          `beside` (show t))
           |> toForm |> move (0, 300)
       ])
 
@@ -64,7 +66,8 @@ allPlanets : List Planet
 allPlanets = [Vulcano, Ferengi, Betasoide]
 
 drawTriangle t =
-  path ((List.map (flip positionOfPlanet t) allPlanets) ++ [positionOfPlanet Vulcano t]) |> traced defaultLine
+  path (List.map (flip positionOfPlanet t) <| allPlanets ++ [Vulcano])
+    |> traced defaultLine
 
 speedOf : Planet -> Float
 speedOf planet =
