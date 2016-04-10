@@ -18,18 +18,27 @@ type Distance' = Double
 data Weather = Drought
              | HeavyRain
              | Rain
-             | Perfect deriving (Show, Eq)
+             | Perfect
+             | Unknown deriving (Eq)
 
-weatherAt :: Day -> Maybe Weather
+instance Show Weather where
+  show Drought    = "That day the weather will be: drougth"
+  show Rain       = "That day the weather will be: normal rain"
+  show HeavyRain  = "That day the weather will be: heavy rain"
+  show Perfect    = "That day the weather will be: optimal conditions"
+  show Unknown    = "I don't know how the weather will be that day"
+
+weatherAt :: Day -> Weather
 weatherAt n
-  | isSunAlignedWithPlanetsAt n = Just Drought
+  | isSunAlignedWithPlanetsAt n = Drought
   | isSunInsideTriangleAt n || isSunInsideTriangleAt (n+1) =
     if slopeOfTriangleAt n == Ascending && slopeOfTriangleAt (n+1) == Descending  then
-      Just HeavyRain
+      HeavyRain
     else
-      Just Rain
-  | (sideOfOtherPlanet n) /= (sideOfOtherPlanet (n+1)) && not (isSunAlignedWithPlanetsAt (n+1)) = Just Perfect
-  | otherwise = Nothing
+      Rain
+  | (sideOfOtherPlanet n) /= (sideOfOtherPlanet (n+1)) &&
+    not (isSunAlignedWithPlanetsAt (n+1)) = Perfect
+  | otherwise = Unknown
 
 sideOfOtherPlanet :: Day -> Maybe Side
 sideOfOtherPlanet n = sideOf (positionAfterDays n Vulcano) $
