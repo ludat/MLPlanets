@@ -36,12 +36,12 @@ weatherAt n
       HeavyRain
     else
       Rain
-  | (sideOfOtherPlanet n) /= (sideOfOtherPlanet (n+1)) &&
+  | sideOfOtherPlanet n /= sideOfOtherPlanet (n+1) &&
     not (isSunAlignedWithPlanetsAt (n+1)) = Perfect
   | otherwise = Unknown
 
 sideOfOtherPlanet :: Day -> Maybe Side
-sideOfOtherPlanet n = sideOf (positionAfterDays n Vulcano) $
+sideOfOtherPlanet n = sideOf (positionAfterDays n Vulcano)
                          Line { from = positionAfterDays n Ferengi
                               , to = positionAfterDays n Betasoide
                               }
@@ -115,20 +115,17 @@ sideOf p l =
     p_x = x p
     p_y = y p
     tmp = (l_p2_x - l_p1_x)*(p_y - l_p1_y) - (l_p2_y - l_p1_y)*(p_x - l_p1_x);
-  in if abs tmp <= 1 then
-       Nothing
-     else if tmp < 0 then
-       Just Below
-     else
-       Just Above
+  in if | abs tmp <= 1 -> Nothing
+        | tmp < 0 -> Just Below
+        | otherwise -> Just Above
 
 
 distanceBetween :: Point -> Point -> Distance
 distanceBetween p1 p2 =
   let
-    x' = (x p2) - (x p1)
-    y' = (y p2) - (y p1)
-  in sqrt (x' ^ 2 + y' ^ 2)
+    x' = x p2 - x p1
+    y' = y p2 - y p1
+  in sqrt $ x' ^ 2 + y' ^ 2
 
 allPlanets :: [Planet]
 allPlanets = [Vulcano, Ferengi, Betasoide]
@@ -161,27 +158,24 @@ distanceBetweenPlanets' day p1 p2 =
 
 distanceBetweenAllPlanets :: Day -> Distance
 distanceBetweenAllPlanets n =
-  (distanceBetweenPlanets n Vulcano Ferengi) +
-  (distanceBetweenPlanets n Vulcano Betasoide) +
-  (distanceBetweenPlanets n Ferengi Betasoide)
+  distanceBetweenPlanets n Vulcano Ferengi +
+  distanceBetweenPlanets n Vulcano Betasoide +
+  distanceBetweenPlanets n Ferengi Betasoide
 
 slopeOfTriangleAt :: Day -> Slope
 slopeOfTriangleAt n =
   let
     d = distanceBetweenAllPlanets' n
   in
-    if abs d < 1 then
-      Flat
-    else if d < 0 then
-      Descending
-    else
-      Ascending
+    if | abs d < 1 -> Flat
+       | d < 0 -> Descending
+       | otherwise -> Ascending
 
 distanceBetweenAllPlanets' :: Day -> Distance
 distanceBetweenAllPlanets' n =
-  (distanceBetweenPlanets' n Vulcano Ferengi) +
-  (distanceBetweenPlanets' n Vulcano Betasoide) +
-  (distanceBetweenPlanets' n Ferengi Betasoide)
+  distanceBetweenPlanets' n Vulcano Ferengi +
+  distanceBetweenPlanets' n Vulcano Betasoide +
+  distanceBetweenPlanets' n Ferengi Betasoide
 
 data Slope = Descending | Flat | Ascending deriving (Show, Eq, Ord)
 
@@ -203,10 +197,10 @@ positionAfterDays day planet =
   let
     angle = toRadians $ angleAfterDays day planet
     h = distanceFromTheSun planet
-  in Point { x = (cos angle) * h, y = (sin angle) * h }
+  in Point { x = cos angle * h, y = sin angle * h }
 
 angleAfterDays :: Day -> Planet -> Angle
-angleAfterDays day planet = (day * (speed planet)) `pmod` 360
+angleAfterDays day planet = (day * speed planet) `pmod` 360
 
 distanceFromTheSun :: Planet -> Distance
 distanceFromTheSun Ferengi = 500000
@@ -217,15 +211,3 @@ speed :: Planet -> Speed
 speed Ferengi = 1
 speed Betasoide = 3
 speed Vulcano = -5
-
--- HERE BE DRAGONS
-
-
--- distanceBetweenPlanets' :: Day -> Planet -> Planet -> Distance
--- distanceBetweenPlanets' day p1 p2 =
---   let
---     angle1 = (toRadians $ angleAfterDays day p1)
---     angle2 = (toRadians $ angleAfterDays day p2)
---     d1 = distanceFromTheSun p1
---     d2 = distanceFromTheSun p2
---   in (d1 ^ 2) + (d2 ^ 2) - 2 * d1 * d2 * cos (abs (angle1 - angle2))
