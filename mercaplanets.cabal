@@ -18,7 +18,7 @@ library
   exposed-modules:     Lib
   build-depends:       base >= 4.7 && < 5
   default-language:    Haskell2010
-  extensions:          MultiWayIf
+  default-extensions:  MultiWayIf
 
 executable mercaplanets-exe
   hs-source-dirs:      app
