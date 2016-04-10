@@ -1,10 +1,24 @@
 module Main where
 
 import Lib
+import System.Environment
+import Text.Read (readMaybe)
 
 main :: IO ()
 main = do
-  print $ filter (\x -> isSunInsideTriangle
-                              (positionAfterDays x Ferengi)
-                              (positionAfterDays x Betasoide)
-                              (positionAfterDays x Vulcano)) [0..180]
+  n <- readMaybe . head <$> getArgs :: IO (Maybe Day)
+  case n of
+    Nothing -> showHelp
+    Just n -> putStrLn $ show $ weatherAt $ n `pmod` 360
+
+showHelp :: IO ()
+showHelp = putStrLn help
+
+help :: String
+help = unlines
+  [ "Help:"
+  , "./mercaplanets <day>"
+  , ""
+  , "eg:"
+  , "  ./mercaplanets 20"
+  ]
