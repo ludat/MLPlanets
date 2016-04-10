@@ -138,23 +138,21 @@ otherPlanets Vulcano = [Betasoide, Ferengi]
 distanceBetweenPlanets :: Day -> Planet -> Planet -> Distance
 distanceBetweenPlanets day p1 p2 =
   let
-    v1 = toRadians $ speed p1
-    v2 = toRadians $ speed p2
+    v = toRadians $ speed p1 - speed p2
     d1 = distanceFromTheSun p1
     d2 = distanceFromTheSun p2
   in
-    sqrt $ (d1 ^ 2) + (d2 ^ 2) - (2 * d1 * d2 * cos (day * (v1 - v2)))
+    sqrt $ (d1 ^ 2) + (d2 ^ 2) - (2 * d1 * d2 * cos (day * v))
 
 distanceBetweenPlanets' :: Day -> Planet -> Planet -> Distance'
 distanceBetweenPlanets' day p1 p2 =
   let
-    v1 = toRadians $ speed p1
-    v2 = toRadians $ speed p2
+    v = toRadians $ speed p1 - speed p2
     d1 = distanceFromTheSun p1
     d2 = distanceFromTheSun p2
-  in (d1*d2*(v1-v2)*sin((v1-v2)*day))
+  in (d1*d2*v*sin(v*day))
      /
-     sqrt ((-2)*d1*d2*cos((v1-v2)*day)+d1^2+d2^2)
+     sqrt ((-2)*d1*d2*cos(v*day)+d1^2+d2^2)
 
 distanceBetweenAllPlanets :: Day -> Distance
 distanceBetweenAllPlanets n =
