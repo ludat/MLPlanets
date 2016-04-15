@@ -1,0 +1,11 @@
+#+TITLE: Programming excercise for Mercado Libre interview
+#+AUTHOR: Lucas David Traverso
+#+EMAIL: lucas6246@gmail.com
+#+DATE: 2016-04-15
+
+* How to build and run:
+- Install [[http://docs.haskellstack.org/en/stable/README/#how-to-install][stack]]
+- clone the repository and cd into it
+- run =stack setup= to download ghc
+- run =stack build= to build the project and its dependencies
+- run =stack exec mercaplanets-exe 10= to get the weather for day 10
