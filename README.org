@@ -9,3 +9,14 @@
 - run =stack setup= to download ghc
 - run =stack build= to build the project and its dependencies
 - run =stack exec mercaplanets-exe 10= to get the weather for day 10
+
+* Running the visual simulation:
+The UI simulation is written in Elm, which is a haskell-like programming
+lenguage that compiles to javascript
+
+- install nodejs and npm
+- run =npm install -g elm=
+- cd into shower directory
+- run =elm package install=
+- run =elm reactor=
+- access the url to see the live simulation
