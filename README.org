@@ -3,20 +3,27 @@
 #+EMAIL: lucas6246@gmail.com
 #+DATE: 2016-04-15
 
-* How to build and run:
+* Main part (haskell)
+There is a live haddock docs [[http://ludat.github.io/mercaplanets/][here]]
+** Building:
 - Install [[http://docs.haskellstack.org/en/stable/README/#how-to-install][stack]]
 - clone the repository and cd into it
 - run =stack setup= to download ghc
 - run =stack build= to build the project and its dependencies
+** Running:
 - run =stack exec mercaplanets-exe 10= to get the weather for day 10
 
-* Running the visual simulation:
+* Visual simulation part (Elm)
 The UI simulation is written in Elm, which is a haskell-like programming
 lenguage that compiles to javascript
 
+There is a live demo [[http://ludat.github.io/mercaplanets/shower][here]]
+
+** Building:
 - install nodejs and npm
 - run =npm install -g elm=
 - cd into shower directory
 - run =elm package install=
+** Running:
 - run =elm reactor=
 - access the url to see the live simulation
