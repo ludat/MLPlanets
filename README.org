@@ -17,7 +17,7 @@ There is a live haddock docs [[http://ludat.github.io/mercaplanets/][here]]
 The UI simulation is written in Elm, which is a haskell-like programming
 lenguage that compiles to javascript
 
-There is a live demo [[http://ludat.github.io/mercaplanets/shower][here]]
+There is a live demo [[http://ludat.github.io/MLPlanets/shower][here]]
 
 ** Building:
 - install nodejs and npm
